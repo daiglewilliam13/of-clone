@@ -1,0 +1,13 @@
+.login-form {
+	margin: 10rem 0 0 3.5rem;
+}
+
+@media screen and (min-width: 1355px) {
+	
+	.login-form {
+		
+	margin: 10rem 0 0 15rem;
+		
+	}
+	
+}

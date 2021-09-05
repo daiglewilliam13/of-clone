@@ -1,0 +1,59 @@
+.nav-link {
+	text-align:center;
+	border-radius: 1rem;
+
+}
+
+.nav-link:hover {
+	background-color: grey;
+}
+
+.sidebar {
+	width: 5rem;
+	align-content: flex-start;
+	transition: 0.3s;
+	position: fixed;
+	left: 0;
+	top: 0;
+	height: 100%;
+	padding: 5rem 0 0 0;
+	font-size: 2rem;
+
+}
+
+.sidebar a {
+	color: grey;
+}
+
+.nav-item {
+	width:100%;
+}
+
+
+.sidebar-link-text {
+	opacity: 0;
+	transition: .3s;
+	font-size:0;
+}
+
+@media screen and (min-width: 1355px) {
+	.sidebar {
+		width: 15rem;
+		padding: 5rem 0 0 0;
+		transition: 0.3s;
+		font-size: 1rem;
+
+	}
+	.sidebar-link-text {
+		display: inline-block;
+		margin: 0 1rem;
+		opacity: 1;
+		transition: .3s;
+		font-size:1rem;
+	}
+	
+	.nav-link {
+		text-align: left;
+	}
+
+}
