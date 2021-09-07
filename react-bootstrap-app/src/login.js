@@ -8,7 +8,6 @@ import Signup from './Signup';
 
 const Login = () => {
 	let history = useHistory();
-
 	const [details, setDetails] = useState({ name: '', password: '' });
 	const [expanded, setExpanded] = useState(false);
 	const handleLogin = (e) => {
@@ -34,7 +33,7 @@ const Login = () => {
 							userData = JSON.stringify(userData);
 							console.log(userData);
 							localStorage.setItem('userData', userData);
-							history.push('/dashboard/home');
+							history.push('/dashboard');
 						} else {
 							history.push('/auth/login');
 						}

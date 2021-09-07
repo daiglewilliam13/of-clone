@@ -43,7 +43,7 @@ const Signup = (props) => {
 									const userData = JSON.stringify(response.data);
 									console.log(userData);
 									localStorage.setItem('userData', userData);
-									history.push('/dashboard/home');
+									history.push('/dashboard');
 								} else {
 									history.push('/auth/login');
 								}

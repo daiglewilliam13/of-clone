@@ -60,7 +60,13 @@ app.get("/getUsername", verifyJWT, (req, res)=>{
 })
 
 app.get("/getUserInfo", verifyJWT, (req, res) =>{
-	res.json({message:'verified'});
+	User.findById(req.user.id, function(err, foundUser){
+		if(err){
+			res.json(err);
+		} else {
+			res.json(foundUser);
+		}
+	})
 })
 
 app.post("/register", async (req, res) =>{

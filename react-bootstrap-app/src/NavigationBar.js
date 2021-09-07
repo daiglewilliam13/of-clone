@@ -36,7 +36,7 @@ function NavigationBar(props) {
 			</Navbar.Collapse>
 	</Navbar>
 	<Switch>
-		<Route path="/dashboard/about">
+		<Route exact path="/dashboard/about">
 			<About content="About"/>
 		</Route>
 	</Switch>

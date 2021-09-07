@@ -6,7 +6,7 @@ import './MainFeed.css';
 import  Posts from './Post';
 
 
-const MainFeed = () => {
+const MainFeed = (props) => {
 
 	return(
 	<Container>
@@ -15,7 +15,7 @@ const MainFeed = () => {
 			<h3>Recent Posts</h3>
 			</div>
 			<div className="posts">
-				<Posts/>
+			
 			</div>
 		</div>	
 	</Container>
