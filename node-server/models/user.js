@@ -15,6 +15,15 @@ let userSchema = new Schema({
 		type: String,
 		required: true,
 	}, 
+	posts: [{type: Schema.Types.ObjectId, ref: 'Post'}],
+	following: [{type: Schema.Types.ObjectId, ref: 'User'}],
+	followers: [{type: Schema.Types.ObjectId, ref: 'User'}],
+	profilePicture: {
+		type: String,
+	},
+	createdAt: Number,
+	lastVisited: Number, 
+	
 
 }, {timestamps: true});
 

@@ -23,6 +23,7 @@ const Signup = (props) => {
 				username: signupDetails.username,
 				password: signupDetails.password,
 				email: signupDetails.email,
+				profilePicture: "../images/default-profile-photo.jpg"
 			})
 			.then(() => {
 				axios
@@ -43,7 +44,7 @@ const Signup = (props) => {
 									const userData = JSON.stringify(response.data);
 									console.log(userData);
 									localStorage.setItem('userData', userData);
-									history.push('/dashboard');
+									history.push('/');
 								} else {
 									history.push('/auth/login');
 								}
@@ -114,7 +115,7 @@ const Signup = (props) => {
 								required
 							/>
 						</Form.Group>
-						<Button variant="primary" type="submit">
+						<Button variant="primary" type="submit" disabled={!match}>
 							Sign Up
 						</Button>
 					</Form>

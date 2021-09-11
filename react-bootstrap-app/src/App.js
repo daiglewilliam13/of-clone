@@ -1,14 +1,12 @@
-import React, {useEffect, setState, useState} from 'react';
+import React from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {
   Route,
   Redirect, 
-	Switch
 } from "react-router-dom";
 import Dashboard from './Dashboard';
 import Login from './login';
-import axios from 'axios';
 
 
 function App() { 

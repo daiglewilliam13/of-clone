@@ -33,7 +33,7 @@ const Login = () => {
 							userData = JSON.stringify(userData);
 							console.log(userData);
 							localStorage.setItem('userData', userData);
-							history.push('/dashboard');
+							history.push('/dashboard/home');
 						} else {
 							history.push('/auth/login');
 						}

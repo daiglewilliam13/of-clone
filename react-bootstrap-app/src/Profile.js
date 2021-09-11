@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import { Container, Button } from 'react-bootstrap';
+import React from 'react';
+import { Container } from 'react-bootstrap';
 import './content-wrapper.css';
 import './Profile.css';
 import axios from 'axios';

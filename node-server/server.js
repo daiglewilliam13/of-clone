@@ -16,7 +16,7 @@ app.use(function (req, res, next) {
 	res.header('Access-Control-Allow-Methods', 'GET,HEAD,OPTIONS,POST,PUT');
 	res.header(
 		'Access-Control-Allow-Headers',
-		'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, x-access-token'
+		'Access-Control-Allow-Headers, Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, x-access-token'
 	);
 	res.header('Access-Control-Allow-Origin', 'https://ofclone-nmoaj.run-us-west2.goorm.io'); // update to match the domain you will make the request from
 	next();
@@ -59,12 +59,15 @@ app.get("/getUsername", verifyJWT, (req, res)=>{
 	res.json({isLoggedIn: true, username: req.user.username, id: req.user.id})
 })
 
-app.get("/getUserInfo", verifyJWT, (req, res) =>{
-	User.findById(req.user.id, function(err, foundUser){
+app.post("/getUserInfo", (req, res) =>{
+	console.log(req.body);
+	User.findById(req.body.id).exec((err, foundUser)=>{
 		if(err){
-			res.json(err);
+			console.log(err)
+			res.json(err)
 		} else {
-			res.json(foundUser);
+			console.log(foundUser)
+			res.json(foundUser)
 		}
 	})
 })
@@ -83,6 +86,7 @@ app.post("/register", async (req, res) =>{
 		user.password = await bcrypt.hash(req.body.password,10)
 		
 		const dbUser = new User({
+			_id: new mongoose.Types.ObjectId(),
 			username: user.username.toLowerCase(),
 			email: user.email.toLowerCase(),
 			password: user.password
@@ -99,7 +103,6 @@ app.post("/register", async (req, res) =>{
 app.post("/login", (req, res) =>{
 	
 	const userCredentials = req.body;
-	console.log(req.body);
 	User.findOne({username: userCredentials.username})
 	.then(dbUser => {
 		if(!dbUser){
@@ -146,24 +149,34 @@ app.get('/', (req, res) => {
 //get data route
 
 
-app.get('/data', (req, res) => {
-	Post.find().exec((err, document) => {
-		if (err) {
-			console.log(err);
-			res.json(err);
-		} else {
-			res.json(document);
-		}
-	});
-});
 
-
+app.post('/posts', verifyJWT, async (req, res) => {
+	const postData = req.body;
+	const newPost = new Post({
+		_id: new mongoose.Types.ObjectId(),
+		postTitle: postData.postTitle,
+		postText: req.body.postText,
+		author: req.body.author,
+		createdAt: req.body.createdAt
+	})
+	newPost.save();
+	let foundPost = await Post.findOne({_id:newPost._id});
+	console.log(foundPost)
+	User.updateOne(
+		{_id:req.body.author},
+		{$push: {"posts": newPost._id}}
+	).then(data =>{
+		console.log(data);
+	})
+})
+ 
 app.get('/posts', (req, res) => {
-	Post.find().exec((err, document) => {
+	Post.find().sort({createdAt:-1}).exec((err, document) => {
 		if (err) {
 			console.log(err);
 			res.json(err);
 		} else {
+			console.log(document);
 			res.json(document);
 		}
 	});

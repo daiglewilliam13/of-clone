@@ -21,7 +21,7 @@ function SideBar() {
 	useEffect(() =>{
 		
 		axios({
-			method: 'get',
+			method: 'post',
 			url: 'https://wondering-shipments.run-us-west2.goorm.io/getUserInfo',
 			headers: {
 				'x-access-token': userData.token ,
@@ -80,7 +80,7 @@ function SideBar() {
 					<More content="More"/>
 				</Route>
 				<Route path="/dashboard/create" >
-					<Create content="Create a post"/>
+					<Create content="Create a post" user={{...profileData}}/>
 				</Route>
 				<Route path="/dashboard/profile" >
 					<Profile content="Your Profile" user={{...profileData}}/>

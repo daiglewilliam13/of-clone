@@ -11,24 +11,94 @@ const tOptions = {
 	hour: 'numeric',
 	minute: '2-digit',
 };
-const Posts = () => {
-	const [postData, setPostData] = useState([]);
-	
-	useEffect(() => {
-		let isMounted = true;
-		axios.get('https://wondering-shipments.run-us-west2.goorm.io/data').then(res => {
-			if(isMounted) setPostData(res.data);
-		})
-		return () => {isMounted = false};
-	}, []);
 
-	return (
+// const foundPosts = async () => {
+// 	let result = await getNewPosts();
+// 	return result.data;
+// };
+
+// const postArr = async () => {
+// 	let results = foundPosts()
+// 		.then((arr) => {
+// 		let newArrPromise = arr.map(obj => ({...obj, username:postUsername(obj.author)}));
+// 		const results = Promise.all(newArrPromise);
+// 		return results;
+// 	})
+// 	return results;
+// };
+
+// const postUsername = async (id) => {
+// 	let username = await getUsername(id)
+// 	.then(res =>{
+// 		return res
+// 	})
+// 	return username
+// }
+// const getUsername = async (id) => {
+// 	return new Promise((resolve, reject) => {
+// 				axios({
+// 				method: 'post',
+// 				url: 'https://wondering-shipments.run-us-west2.goorm.io/getUserInfo',
+// 				data: {
+// 					id:id
+// 				},
+// 			}).then(res =>{
+// 				resolve(res.data.username);
+// 			})
+// 	})
+// };
+
+
+
+const Posts = () => {
+	const [postData, setPostData] = useState([
+		{
+			username: '',
+			profilePicture: '',
+		},
+	]);
+	const [hasLoaded, setHasLoaded] = useState(false);
+	const getNewPosts = () => {
+			let posts = [];
+			axios
+				.get('https://wondering-shipments.run-us-west2.goorm.io/posts')
+				.then((res) => {
+					posts = res.data;
+				})
+				.then(() =>
+					Promise.all(
+						posts.map((post) =>
+							axios({
+								method: 'post',
+								url:
+									'https://wondering-shipments.run-us-west2.goorm.io/getUserInfo',
+								data: {
+									id: post.author,
+								},
+							})
+								.then((res) => {
+									const username = res.data.username;
+									post.username = username;
+									post.profilePicture = "../../images/default-profile-photo.jpg";
+								})
+						)
+					).then(()=>{
+				setPostData(posts);
+				setHasLoaded(true);
+			})
+				);
+		};
+
+	useEffect(() => {
+		getNewPosts();
+	}, []);
+	return hasLoaded ? (
 		<>
 			{postData.map((posts, index) => (
 				<div className="post-wrapper" key={index}>
 					<div className="post-header">
 						<div className="post-profile-picture">
-							<img src="../images/profilepicturesample.jpg" alt=""></img>
+							<img src={posts.profilePicture} alt=""></img>
 						</div>
 						<div className="username">
 							<p>{posts.username}</p>
@@ -51,6 +121,8 @@ const Posts = () => {
 				</div>
 			))}
 		</>
+	) : (
+		<p>Loading Posts...</p>
 	);
 };
 export default Posts;

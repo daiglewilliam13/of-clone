@@ -15,7 +15,7 @@ const MainFeed = (props) => {
 			<h3>Recent Posts</h3>
 			</div>
 			<div className="posts">
-			
+			<Posts />
 			</div>
 		</div>	
 	</Container>
