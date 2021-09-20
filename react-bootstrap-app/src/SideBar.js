@@ -15,7 +15,7 @@ import Profile from './Profile';
 import axios from 'axios';
 
 
-function SideBar() {
+function SideBar(props) {
 	const [profileData, setProfileData] = useState({});
 	let userData = JSON.parse(localStorage.getItem('userData'));
 	useEffect(() =>{
@@ -68,7 +68,7 @@ function SideBar() {
 					<Messages content="Messages" />
 				</Route>
 				<Route path="/dashboard/home/" >
-					<MainFeed content="Main Feed"/>
+					<MainFeed content="Main Feed" user={{...profileData}}/>
 				</Route>
 				<Route path="/dashboard/saved" >
 					<Saved content="Saved" />

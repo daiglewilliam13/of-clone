@@ -22,7 +22,8 @@ let userSchema = new Schema({
 		type: String,
 	},
 	createdAt: Number,
-	lastVisited: Number, 
+	lastVisited: Number,
+	likedPosts: [{type: Schema.Types.ObjectId, ref:'Post'}]
 	
 
 }, {timestamps: true});

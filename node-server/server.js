@@ -5,10 +5,10 @@ const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const app = express();
 const bcrypt = require('bcrypt');
-const User = require('./models/user') 
+const User = require('./models/user');
 const Post = require('./models/post');
-const jwtSecret = "pizza";
-const passportSecret = "pizza";
+const jwtSecret = 'pizza';
+const passportSecret = 'pizza';
 
 app.use(function (req, res, next) {
 	res.header('Access-Control-Allow-Origin', '*');
@@ -36,119 +36,132 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 //middleware
 function verifyJWT(req, res, next) {
-	const token = req.headers["x-access-token"].split(" ")[1];
-	
-	if(token) {
-		jwt.verify(token, passportSecret, (err, decoded)=> {
-			if(err) return res.json({
-				isLoggedIn: false,
-		  		message: "Failed to authenticate",
-				message: err
-			})
-			req.user={};
-			req.user.id = decoded.id
-			req.user.username = decoded.username
+	const token = req.headers['x-access-token'].split(' ')[1];
+
+	if (token) {
+		jwt.verify(token, passportSecret, (err, decoded) => {
+			if (err)
+				return res.json({
+					isLoggedIn: false,
+					message: 'Failed to authenticate',
+					message: err,
+				});
+			req.user = {};
+			req.user.id = decoded.id;
+			req.user.username = decoded.username;
 			next();
-		})
+		});
 	} else {
-		res.json({message:"Incorrect Token Given", isLoggedIn: false})
+		res.json({ message: 'Incorrect Token Given', isLoggedIn: false });
 	}
 }
 
-app.get("/getUsername", verifyJWT, (req, res)=>{
-	res.json({isLoggedIn: true, username: req.user.username, id: req.user.id})
-})
+app.get('/getUsername', verifyJWT, (req, res) => {
+	res.json({ isLoggedIn: true, username: req.user.username, id: req.user.id });
+});
 
-app.post("/getUserInfo", (req, res) =>{
-	console.log(req.body);
-	User.findById(req.body.id).exec((err, foundUser)=>{
-		if(err){
-			console.log(err)
-			res.json(err)
+app.post('/getUserInfo', (req, res) => {
+	User.findById(req.body.id).exec((err, foundUser) => {
+		if (err) {
+			console.log(err);
+			res.json(err);
 		} else {
-			console.log(foundUser)
-			res.json(foundUser)
+			res.json(foundUser);
 		}
-	})
-})
+	});
+});
 
-app.post("/register", async (req, res) =>{
-	
-	
+app.post('/register', async (req, res) => {
 	const user = req.body;
 	console.log(req.body);
-	const takenUsername = await User.findOne({username: user.username})
-	const takenEmail = await User.findOne({email:user.email})
-	
-	if(takenUsername || takenEmail){
-		res.json({message: "Username or email already taken", redirect:true})
+	const takenUsername = await User.findOne({ username: user.username });
+	const takenEmail = await User.findOne({ email: user.email });
+
+	if (takenUsername || takenEmail) {
+		res.json({ message: 'Username or email already taken', redirect: true });
 	} else {
-		user.password = await bcrypt.hash(req.body.password,10)
-		
+		user.password = await bcrypt.hash(req.body.password, 10);
+
 		const dbUser = new User({
 			_id: new mongoose.Types.ObjectId(),
 			username: user.username.toLowerCase(),
 			email: user.email.toLowerCase(),
-			password: user.password
-		})
-		
-		dbUser.save()
+			password: user.password,
+		});
+
+		dbUser.save();
 		res.json({
-			message:"Success",
-			isLoggedIn: true
-		})
+			message: 'Success',
+			isLoggedIn: true,
+		});
 	}
 });
 
-app.post("/login", (req, res) =>{
-	
+app.post('/login', (req, res) => {
 	const userCredentials = req.body;
-	User.findOne({username: userCredentials.username})
-	.then(dbUser => {
-		if(!dbUser){
+	User.findOne({ username: userCredentials.username }).then((dbUser) => {
+		if (!dbUser) {
 			return res.json({
-				message: "Invalid Username or Password"
-			})
+				message: 'Invalid Username or Password',
+			});
 		}
-		bcrypt.compare(userCredentials.password, dbUser.password)
-		.then(isCorrect =>{
-			if(isCorrect) {
-			const payload = {
-				id: dbUser._id,
-				username: dbUser.username,
-			}
-			jwt.sign(
-				payload,
-				jwtSecret,
-				{expiresIn: 86400},
-				(err, token) => {
-					if(err) return res.json({message:err})
+		bcrypt.compare(userCredentials.password, dbUser.password).then((isCorrect) => {
+			if (isCorrect) {
+				const payload = {
+					id: dbUser._id,
+					username: dbUser.username,
+				};
+				jwt.sign(payload, jwtSecret, { expiresIn: 86400 }, (err, token) => {
+					if (err) return res.json({ message: err });
 					return res.json({
-						message: "Success",
-						token: "Bearer " + token
-					})
-				}
-			)
+						message: 'Success',
+						token: 'Bearer ' + token,
+					});
+				});
 			} else {
 				return res.json({
-					message: "Invalid Username or Password"
-				})
+					message: 'Invalid Username or Password',
+				});
 			}
-		})
-	})
-})
+		});
+	});
+});
 
-
-
-
+app.post('/getLikes', async (req, res) => {
+	const postId = req.body.id;
+	const likedBy = req.body.likedBy;
+	Post.exists({ _id: postId, likedBy: likedBy }, function (err, result) {
+		if (result) {
+			Post.findByIdAndUpdate(postId, {
+				$inc: { likes: -1 },
+				$pull: { likedBy },
+			}).then(() => {
+				User.findByIdAndUpdate(likedBy, {
+					$pull: { likedPosts: postId },
+				}).then(() => {
+					res.json('removed like');
+				});
+			});
+		} else {
+			Post.findByIdAndUpdate(postId, {
+				$inc: { likes: 1 },
+				$addToSet: { likedBy },
+			}).then(() => {
+				User.findByIdAndUpdate(likedBy, {
+					$addToSet: { likedPosts: postId },
+				}).then(() => {
+					res.json('liked and update');
+				});
+			});
+		}
+	});
+});
 
 // simple route
 app.get('/', (req, res) => {
 	res.json({ message: 'Welcome to TRULYFANS API' });
 });
 //get data route
-
-
 
 app.post('/posts', verifyJWT, async (req, res) => {
 	const postData = req.body;
@@ -157,29 +170,27 @@ app.post('/posts', verifyJWT, async (req, res) => {
 		postTitle: postData.postTitle,
 		postText: req.body.postText,
 		author: req.body.author,
-		createdAt: req.body.createdAt
-	})
-	newPost.save();
-	let foundPost = await Post.findOne({_id:newPost._id});
-	console.log(foundPost)
-	User.updateOne(
-		{_id:req.body.author},
-		{$push: {"posts": newPost._id}}
-	).then(data =>{
-		console.log(data);
-	})
-})
- 
-app.get('/posts', (req, res) => {
-	Post.find().sort({createdAt:-1}).exec((err, document) => {
-		if (err) {
-			console.log(err);
-			res.json(err);
-		} else {
-			console.log(document);
-			res.json(document);
-		}
+		createdAt: req.body.createdAt,
 	});
+	newPost.save();
+	let foundPost = await Post.findOne({ _id: newPost._id });
+	console.log(foundPost);
+	User.updateOne({ _id: req.body.author }, { $push: { posts: newPost._id } }).then((data) => {
+		console.log(data);
+	});
+});
+
+app.get('/posts', (req, res) => {
+	Post.find()
+		.sort({ createdAt: -1 })
+		.exec((err, document) => {
+			if (err) {
+				console.log(err);
+				res.json(err);
+			} else {
+				res.json(document);
+			}
+		});
 });
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;

@@ -3,6 +3,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Post.css';
 import axios from 'axios';
+import {Button} from 'react-bootstrap';
 
 const tOptions = {
 	year: 'numeric',
@@ -12,52 +13,33 @@ const tOptions = {
 	minute: '2-digit',
 };
 
-// const foundPosts = async () => {
-// 	let result = await getNewPosts();
-// 	return result.data;
-// };
-
-// const postArr = async () => {
-// 	let results = foundPosts()
-// 		.then((arr) => {
-// 		let newArrPromise = arr.map(obj => ({...obj, username:postUsername(obj.author)}));
-// 		const results = Promise.all(newArrPromise);
-// 		return results;
-// 	})
-// 	return results;
-// };
-
-// const postUsername = async (id) => {
-// 	let username = await getUsername(id)
-// 	.then(res =>{
-// 		return res
-// 	})
-// 	return username
-// }
-// const getUsername = async (id) => {
-// 	return new Promise((resolve, reject) => {
-// 				axios({
-// 				method: 'post',
-// 				url: 'https://wondering-shipments.run-us-west2.goorm.io/getUserInfo',
-// 				data: {
-// 					id:id
-// 				},
-// 			}).then(res =>{
-// 				resolve(res.data.username);
-// 			})
-// 	})
-// };
 
 
-
-const Posts = () => {
+const Posts = (props) => {
 	const [postData, setPostData] = useState([
 		{
 			username: '',
 			profilePicture: '',
 		},
 	]);
+	
 	const [hasLoaded, setHasLoaded] = useState(false);
+	const handleLike = (e) => {
+		e.preventDefault();
+		let userId = props.user._id;
+		let postId = e.target.getAttribute('objectId');
+		axios({
+			method: 'post',
+			url: 'https://wondering-shipments.run-us-west2.goorm.io/getLikes',
+			data: {
+				id: postId,
+				likedBy: props.user._id
+			}
+		}).then((res)=>{
+			console.log(res);
+			getNewPosts();
+		})
+	}
 	const getNewPosts = () => {
 			let posts = [];
 			axios
@@ -77,12 +59,18 @@ const Posts = () => {
 								},
 							})
 								.then((res) => {
+									console.log(res.data);
+									console.log(posts.includes(post.author));
 									const username = res.data.username;
+									const likes = res.data.likes;
+									const comments = res.data.comments;
 									post.username = username;
 									post.profilePicture = "../../images/default-profile-photo.jpg";
+									
 								})
 						)
 					).then(()=>{
+				posts.forEach((arr)=>{console.log(arr.likedBy)})
 				setPostData(posts);
 				setHasLoaded(true);
 			})
@@ -95,7 +83,7 @@ const Posts = () => {
 	return hasLoaded ? (
 		<>
 			{postData.map((posts, index) => (
-				<div className="post-wrapper" key={index}>
+				<div className="post-wrapper" key={posts._id} >
 					<div className="post-header">
 						<div className="post-profile-picture">
 							<img src={posts.profilePicture} alt=""></img>
@@ -116,6 +104,12 @@ const Posts = () => {
 						</div>
 						<div className="post-image">
 							<img src={posts.postPicture} alt=""></img>
+						</div>
+						<div className="post-likes">
+						<p><Button onClick={handleLike} objectId={posts._id}>Likes: {posts.likes}</Button> </p>
+						</div>
+						<div className="post-comments">
+						<p>Comments: {posts.comments}</p>
 						</div>
 					</div>
 				</div>
