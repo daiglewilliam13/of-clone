@@ -2,7 +2,6 @@ import React from 'react';
 import { Container } from 'react-bootstrap';
 import '../Sidebar/content-wrapper.css';
 import './Profile.css';
-import axios from 'axios';
 
 const Profile = (props) => {
 	return (

@@ -1,18 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Container } from 'react-bootstrap';
+import React, { useState, useRef } from 'react';
 import '../Sidebar/content-wrapper.css';
 import '../Messages/messages.css';
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
 
 
 const Conversation = (props) => {
-	let history = useHistory();
 	const [messageDetails, setMessageDetails] = useState({});
-	const [click, setClick] = useState(false);
 	const [expanded, setExpanded] = useState(false);
-	const [hasLoaded, setHasLoaded] = useState(false);
-	const [convoDetails, setConvoDetails] = useState([{}]);
 	const conversation = props.conversation;
 	const toggleExpand = () => {
 		setExpanded((expanded) => !expanded);
@@ -51,7 +45,7 @@ const Conversation = (props) => {
 					<hr></hr>
 					<span onClick={toggleExpand}>
 						Conversation with{' '}
-						{conversation.members[0] == props.user.username
+						{conversation.members[0] === props.user.username
 							? conversation.members[1]
 							: conversation.members[0]}
 					</span>
@@ -71,7 +65,7 @@ const Conversation = (props) => {
 										type="text"
 										name="Send To"
 										defaultValue={`${
-											conversation.members[0] == props.user.username
+											conversation.members[0] === props.user.username
 												? conversation.members[1]
 												: conversation.members[0]
 										}`}

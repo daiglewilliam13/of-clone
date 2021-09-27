@@ -1,6 +1,6 @@
-import React, { useState, setState } from 'react';
-import { Container, Navbar, Form, Button } from 'react-bootstrap';
-import { Route, Switch, Link, useHistory } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Container, Form, Button } from 'react-bootstrap';
+import { useHistory } from 'react-router-dom';
 import './Auth.css';
 import axios from 'axios';
 
@@ -63,7 +63,7 @@ const Signup = (props) => {
 						<h1> Welcome! Please sign up:</h1>
 					</div>
 					<Form onSubmit={handleSignup}>
-						<Form.Group className="mb-3" controlId="formBasicEmail">
+						<Form.Group className="mb-3" controlId="formBasicUsernameSignup">
 							<Form.Label>Username</Form.Label>
 							<Form.Control
 								type="text"
@@ -78,7 +78,7 @@ const Signup = (props) => {
 							</Form.Text>
 						</Form.Group>
 
-						<Form.Group className="mb-3" controlId="formBasicPassword">
+						<Form.Group className="mb-3" controlId="formBasicPasswordSignup">
 							<Form.Label>Enter Password</Form.Label>
 							<Form.Control
 								className="mb-1"
@@ -103,7 +103,7 @@ const Signup = (props) => {
 								Passwords do not match
 							</Form.Text>
 						</Form.Group>
-						<Form.Group className="mb-3" controlId="formBasicEmail">
+						<Form.Group className="mb-3" controlId="formBasicEmailSignup">
 							<Form.Label>Email Address:</Form.Label>
 							<Form.Control
 								type="email"
@@ -121,9 +121,9 @@ const Signup = (props) => {
 					</Form>
 				</div>
 				<div className="auth-link">
-					<a href="#" onClick={props.toggleExpand}>
+					<Button onClick={props.toggleExpand}>
 						Already have an account? Login Here
-					</a>
+					</Button>
 				</div>
 			</Container>
 		</>

@@ -1,13 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect} from 'react';
 import { Container } from 'react-bootstrap';
 import '../Sidebar/content-wrapper.css';
 import './messages.css';
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
 import Conversation from '../Conversation/Conversation';
 
 const Messages = (props) => {
-	let history = useHistory();
 	const [hasSent, setHasSent] = useState(false);
 	const [conversations, setConversations] = useState([]);
 	const [hasLoaded, setHasLoaded] = useState(false);
@@ -29,7 +27,6 @@ const Messages = (props) => {
 	const getConversations = () => {
 		const userId = { id: userData.id };
 		let foundConvos = [];
-		let updatedConvos = [];
 		axios
 			.post(
 				'https://wondering-shipments.run-us-west2.goorm.io/getConversations',
@@ -55,7 +52,7 @@ const Messages = (props) => {
 								}).then((res) => {
 									const username = res.data;
 									convo.messages.map((message) => {
-										if (message.sentBy == convo.members[i]) {
+										if (message.sentBy === convo.members[i]) {
 											message.sentBy = username;
 										}
 									});
@@ -96,6 +93,7 @@ const Messages = (props) => {
 									user={{ ...userData }}
 									axiosConfig={{...axiosConfig}}
 									triggerRefresh={triggerRefresh}
+									key={conversations._id}
 								/>
 						
 							</li>

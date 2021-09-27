@@ -4,7 +4,7 @@ import './SideBar.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Nav } from 'react-bootstrap';
 import { HouseFill, ChatSquareTextFill, BellFill, BookmarkFill, ThreeDots,PlusSquareFill, PersonCircle } from 'react-bootstrap-icons';
-import { Link, Switch, Route, useParams} from 'react-router-dom';
+import { Link, Switch, Route} from 'react-router-dom';
 import Messages from '../Messages/Messages';
 import MainFeed from '../MainFeed/MainFeed';
 import Saved from '../Saved/Saved';
@@ -17,9 +17,8 @@ import axios from 'axios';
 
 function SideBar(props) {
 	const [profileData, setProfileData] = useState({});
-	let userData = JSON.parse(localStorage.getItem('userData'));
 	useEffect(() =>{
-		
+		let userData = JSON.parse(localStorage.getItem('userData'));
 		axios({
 			method: 'post',
 			url: 'https://wondering-shipments.run-us-west2.goorm.io/getUserInfo',

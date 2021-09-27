@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import { Container, Navbar, Form, Button } from 'react-bootstrap';
-import { Route, Switch, Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import './Auth.css';
 import axios from 'axios';
 import Signup from './Signup';
@@ -60,7 +60,7 @@ const Login = () => {
 			<h1> Welcome Back! Please sign in:</h1>
 			</div>
 					<Form onSubmit={handleLogin}>
-						<Form.Group className="mb-3" controlId="formBasicEmail">
+						<Form.Group className="mb-3" controlId="formBasicEmailLogin">
 							<Form.Label>Username</Form.Label>
 							<Form.Control
 								type="text"
@@ -75,7 +75,7 @@ const Login = () => {
 							</Form.Text>
 						</Form.Group>
 
-						<Form.Group className="mb-3" controlId="formBasicPassword">
+						<Form.Group className="mb-3" controlId="formBasicPasswordLogin">
 							<Form.Label>What is your Password?</Form.Label>
 							<Form.Control
 								type="password"
@@ -92,9 +92,9 @@ const Login = () => {
 					</Form>
 				</div>
 				<div className={`auth-link ${expanded ? 'hidden' : 'expanded'}`} >
-					<a href="#" onClick={toggleExpand}>
+					<Button onClick={toggleExpand}>
 						New? Sign up here!
-					</a>
+					</Button>
 				</div>
 			</Container>
 			<Container>

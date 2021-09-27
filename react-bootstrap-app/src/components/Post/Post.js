@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import '../../App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Post.css';
-import axios from 'axios';
 import {Button} from 'react-bootstrap';
+import axios from 'axios';
 
 const tOptions = {
 	year: 'numeric',
@@ -33,7 +33,7 @@ const Posts = (props) => {
 			url: 'https://wondering-shipments.run-us-west2.goorm.io/getLikes',
 			data: {
 				id: postId,
-				likedBy: props.user._id
+				likedBy: userId
 			}
 		}).then((res)=>{
 			getNewPosts();
@@ -59,8 +59,6 @@ const Posts = (props) => {
 							})
 								.then((res) => {
 									const username = res.data.username;
-									const likes = res.data.likes;
-									const comments = res.data.comments;
 									post.likedBy.includes(props.user._id) ? post.isLiked=true : post.isLiked=false;
 									post.username = username;
 									post.profilePicture = "../../images/default-profile-photo.jpg";
