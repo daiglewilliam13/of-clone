@@ -5,8 +5,8 @@ import {
   Route,
   Redirect, 
 } from "react-router-dom";
-import Dashboard from './Dashboard';
-import Login from './login';
+import Dashboard from './components/Dashboard/Dashboard';
+import Login from './components/Auth/login';
 
 
 function App() { 
@@ -20,7 +20,7 @@ function App() {
 	return(
 	<>	
 		<Route path="/">
-		{ user ? <Redirect to="/dashboard/" /> : <Redirect to="/auth/login"/> }
+		{ user==null ?  <Redirect to="/auth/login"/> : <Redirect to="/dashboard/" /> }
 		</Route>
 		<Route path="/dashboard/"> 
 			<Dashboard user={{...user}} />

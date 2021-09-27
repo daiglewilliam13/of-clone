@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
-import './App.css';
+import '../../App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button, Container, Navbar, Nav, Form, FormControl } from 'react-bootstrap';
 import {Link, Switch, Route, useHistory} from 'react-router-dom';
 import './NavigationBar.css';
-import About from './About';
+import About from '../About/About';
 
 function NavigationBar(props) {
 	const userData = JSON.parse(localStorage.getItem('userData'));

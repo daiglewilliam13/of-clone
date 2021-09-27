@@ -1,8 +1,8 @@
 import React from 'react';
 import {Container} from 'react-bootstrap';
-import './content-wrapper.css';
+import '../Sidebar/content-wrapper.css';
 
-const Messages = (props) => {
+const Notifications = (props) => {
 	return(
 		<Container>
 		<div className="content-wrapper">
@@ -14,5 +14,5 @@ const Messages = (props) => {
 	)
 }
 
-export default Messages;
+export default Notifications;
 

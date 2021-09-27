@@ -1,6 +1,6 @@
 import React from 'react';
 import {Container} from 'react-bootstrap';
-import './content-wrapper.css';
+import '../Sidebar/content-wrapper.css';
 
 const Saved = (props) => {
 	return(

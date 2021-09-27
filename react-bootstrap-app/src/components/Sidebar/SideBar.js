@@ -1,17 +1,17 @@
 import React, {useState, useEffect} from 'react';
-import './App.css';
+import '../../App.css';
 import './SideBar.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Nav } from 'react-bootstrap';
 import { HouseFill, ChatSquareTextFill, BellFill, BookmarkFill, ThreeDots,PlusSquareFill, PersonCircle } from 'react-bootstrap-icons';
 import { Link, Switch, Route, useParams} from 'react-router-dom';
-import Messages from './Messages';
-import MainFeed from './MainFeed';
-import Saved from './Saved';
-import Notifications from './Notifications';
-import More from './More';
-import Create from './Create';
-import Profile from './Profile';
+import Messages from '../Messages/Messages';
+import MainFeed from '../MainFeed/MainFeed';
+import Saved from '../Saved/Saved';
+import Notifications from '../Notifications/Notifications';
+import More from '../More/More';
+import Create from '../Create/Create';
+import Profile from '../Profile/Profile';
 import axios from 'axios';
 
 

@@ -7,6 +7,7 @@ const app = express();
 const bcrypt = require('bcrypt');
 const User = require('./models/user');
 const Post = require('./models/post');
+const Message = require('./models/message');
 const jwtSecret = 'pizza';
 const passportSecret = 'pizza';
 
@@ -49,6 +50,7 @@ function verifyJWT(req, res, next) {
 			req.user = {};
 			req.user.id = decoded.id;
 			req.user.username = decoded.username;
+			console.log(req.user.username + ' verified');
 			next();
 		});
 	} else {
@@ -70,6 +72,17 @@ app.post('/getUserInfo', (req, res) => {
 		}
 	});
 });
+
+app.post('/getUsername', (req,res)=>{
+	if(!req.body.id){
+		res.json('');
+	} else {
+	User.findById(req.body.id).exec((err, foundUser)=>{
+		if(err) console.log(err)
+		res.json(foundUser.username);
+	})
+	} 
+})
 
 app.post('/register', async (req, res) => {
 	const user = req.body;
@@ -139,7 +152,7 @@ app.post('/getLikes', async (req, res) => {
 				User.findByIdAndUpdate(likedBy, {
 					$pull: { likedPosts: postId },
 				}).then(() => {
-					res.json('removed like');
+					res.json({ message: 'unliked', isLiked: false });
 				});
 			});
 		} else {
@@ -150,7 +163,7 @@ app.post('/getLikes', async (req, res) => {
 				User.findByIdAndUpdate(likedBy, {
 					$addToSet: { likedPosts: postId },
 				}).then(() => {
-					res.json('liked and update');
+					res.json({ message: 'liked', isLiked: true });
 				});
 			});
 		}
@@ -162,22 +175,66 @@ app.get('/', (req, res) => {
 	res.json({ message: 'Welcome to TRULYFANS API' });
 });
 //get data route
+app.post('/getConversations', (req, res) => {
+	const userInfo = req.body;
+	Message.find({ members: userInfo.id }, function (err, foundMessages) {
+		if (err) console.log(err);
+		res.json(foundMessages);
+	});
+});
+app.post('/sendMessage', verifyJWT, (req, res) => {
+	const messageData = req.body;
+	//check if thread exists
+	let members = [];
+	const newMessage = new Message({
+		members: [],
+		messages: {
+			text: messageData.messageText,
+			sentAt: messageData.createdAt,
+			sentBy: messageData.author,
+		},
+	});
+	User.findOne({ username: messageData.recipient }, function (err, foundUser) {
+		if (!foundUser) {
+			res.json('user does not exist');
+		} else {
+			members = [foundUser._id, messageData.author];
+			Message.findOne(
+				{
+					members: { $size: 2, $all: members },
+				},
+				function (err, foundMessage) {
+					if (foundMessage) {
+						Message.findByIdAndUpdate(foundMessage._id, {
+							$addToSet: { messages: newMessage.messages },
+						}).then(() => {
+							console.log('message pushed');
+						});
+					} else {
+						newMessage.members.push(foundUser._id, messageData.author);
+						newMessage.save();
+						console.log('thread not found, created new one');
+					}
+				}
+			);
+			res.json('success');
+		}
+	});
+});
 
 app.post('/posts', verifyJWT, async (req, res) => {
 	const postData = req.body;
 	const newPost = new Post({
 		_id: new mongoose.Types.ObjectId(),
 		postTitle: postData.postTitle,
-		postText: req.body.postText,
-		author: req.body.author,
-		createdAt: req.body.createdAt,
+		postText: postData.postText,
+		author: postData.author,
+		createdAt: postData.createdAt,
+		likedBy: [postData.author],
+		likes: 1,
 	});
 	newPost.save();
-	let foundPost = await Post.findOne({ _id: newPost._id });
-	console.log(foundPost);
-	User.updateOne({ _id: req.body.author }, { $push: { posts: newPost._id } }).then((data) => {
-		console.log(data);
-	});
+	res.json('post created');
 });
 
 app.get('/posts', (req, res) => {

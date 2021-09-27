@@ -1,0 +1,11 @@
+.message-create-form {
+	margin: 3rem 0 0 0;
+}
+
+ul, li {
+	list-style: none;
+}
+
+.recipient {
+	display: none;
+}

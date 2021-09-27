@@ -11,8 +11,8 @@ const Login = () => {
 	const [details, setDetails] = useState({ name: '', password: '' });
 	const [expanded, setExpanded] = useState(false);
 	const handleLogin = (e) => {
-		localStorage.clear();
 		e.preventDefault();
+		localStorage.clear();
 		axios
 			.post('https://wondering-shipments.run-us-west2.goorm.io/login', {
 				username: details.username,
@@ -35,7 +35,7 @@ const Login = () => {
 							localStorage.setItem('userData', userData);
 							history.push('/dashboard/home');
 						} else {
-							history.push('/auth/login');
+							window.location.reload(false);
 						}
 					});
 			})
@@ -86,7 +86,7 @@ const Login = () => {
 								value={details.password}
 							/>
 						</Form.Group>
-						<Button variant="primary" type="submit">
+						<Button variant="primary" type="submit" className="login-button" >
 							Login
 						</Button>
 					</Form>

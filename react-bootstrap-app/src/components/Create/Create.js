@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import { Container } from 'react-bootstrap';
-import './content-wrapper.css';
+import '../Sidebar/content-wrapper.css';
 import './create.css';
 import axios from 'axios';
+import {useHistory} from 'react-router-dom';
 
 const Create = (props) => {
+	let history = useHistory();
 	const [postDetails, setPostDetails] = useState({});
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		const userData = JSON.parse(localStorage.getItem('userData'));
-		console.log(userData);
 		const token = userData.token;
-		console.log(token)
 		const axiosConfig = {
 			headers: {
 			'Content-Type': 'application/json',
@@ -28,7 +28,9 @@ const Create = (props) => {
 			.post('https://wondering-shipments.run-us-west2.goorm.io/posts', postData, axiosConfig)
 			.then((response) => {
 				console.log(response);
-			});
+			}).then(()=>{
+			history.push('/dashboard/home');
+		})
 	};
 	return (
 		<Container>

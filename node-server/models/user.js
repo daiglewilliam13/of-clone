@@ -23,7 +23,8 @@ let userSchema = new Schema({
 	},
 	createdAt: Number,
 	lastVisited: Number,
-	likedPosts: [{type: Schema.Types.ObjectId, ref:'Post'}]
+	likedPosts: [{type: Schema.Types.ObjectId, ref:'Post'}],
+	messages: [{type: Schema.Types.ObjectId, ref: 'Message'}]
 	
 
 }, {timestamps: true});

@@ -1,9 +1,9 @@
 import React from 'react';
-import './App.css';
+import '../../App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container } from 'react-bootstrap';
 import './MainFeed.css';
-import  Posts from './Post';
+import  Posts from '../Post/Post';
 
 
 const MainFeed = (props) => {
@@ -14,10 +14,8 @@ const MainFeed = (props) => {
 			<div className="header-bar">
 			<h3>Recent Posts</h3>
 			</div>
-			<div className="posts">
 			<Posts user={{...props.user}}/>
-			</div>
-		</div>	
+			</div>	
 	</Container>
 	)
 }

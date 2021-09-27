@@ -1,8 +1,8 @@
 import React from 'react';
+import '../Sidebar/content-wrapper.css'
 import {Container} from 'react-bootstrap';
-import './content-wrapper.css';
 
-const More = (props) => {
+const About = (props) => {
 	return(
 		<Container>
 		<div className="content-wrapper">
@@ -14,5 +14,4 @@ const More = (props) => {
 	)
 }
 
-export default More;
-
+export default About;

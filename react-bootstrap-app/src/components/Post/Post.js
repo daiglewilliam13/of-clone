@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './App.css';
+import '../../App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Post.css';
 import axios from 'axios';
@@ -36,7 +36,6 @@ const Posts = (props) => {
 				likedBy: props.user._id
 			}
 		}).then((res)=>{
-			console.log(res);
 			getNewPosts();
 		})
 	}
@@ -59,18 +58,16 @@ const Posts = (props) => {
 								},
 							})
 								.then((res) => {
-									console.log(res.data);
-									console.log(posts.includes(post.author));
 									const username = res.data.username;
 									const likes = res.data.likes;
 									const comments = res.data.comments;
+									post.likedBy.includes(props.user._id) ? post.isLiked=true : post.isLiked=false;
 									post.username = username;
 									post.profilePicture = "../../images/default-profile-photo.jpg";
 									
 								})
 						)
 					).then(()=>{
-				posts.forEach((arr)=>{console.log(arr.likedBy)})
 				setPostData(posts);
 				setHasLoaded(true);
 			})
@@ -82,6 +79,7 @@ const Posts = (props) => {
 	}, []);
 	return hasLoaded ? (
 		<>
+		<div className="posts">
 			{postData.map((posts, index) => (
 				<div className="post-wrapper" key={posts._id} >
 					<div className="post-header">
@@ -106,7 +104,7 @@ const Posts = (props) => {
 							<img src={posts.postPicture} alt=""></img>
 						</div>
 						<div className="post-likes">
-						<p><Button onClick={handleLike} objectId={posts._id}>Likes: {posts.likes}</Button> </p>
+						<p><Button onClick={handleLike} objectid={posts._id}>{posts.isLiked? 'You Like this' : 'Like This!'}</Button> Likes: {posts.likes} </p>
 						</div>
 						<div className="post-comments">
 						<p>Comments: {posts.comments}</p>
@@ -114,9 +112,10 @@ const Posts = (props) => {
 					</div>
 				</div>
 			))}
+		</div>
 		</>
 	) : (
-		<p>Loading Posts...</p>
+		<p className="loading-status">Loading Posts...</p>
 	);
 };
 export default Posts;
