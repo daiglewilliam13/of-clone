@@ -28,8 +28,7 @@ mongoose.set('useNewUrlParser', true);
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 mongoose.set('useUnifiedTopology', true);
-const uri =
-	'mongodb+srv://sampleadmin:sampleadmin@social-media-clone.dfnw4.mongodb.net/trulyfans?retryWrites=true&w=majority';
+const uri = process.env.URI
 mongoose.connect(uri, { useNewUrlParser: true });
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
