@@ -33,7 +33,6 @@ const Create = (props) => {
 		})
 	};
 	return (
-		<Container>
 			<div className="content-wrapper">
 				<div className="header-bar">
 					<h3>{props.content}</h3>
@@ -64,7 +63,6 @@ const Create = (props) => {
 					</form>
 				</div>
 			</div>
-		</Container>
 	);
 };
 

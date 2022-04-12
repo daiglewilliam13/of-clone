@@ -1,0 +1,93 @@
+.sidebar-nav {
+	background-color: #363636;
+	height: 100vh;
+	width: 10rem;	
+	position: fixed;
+	transition: .2s;
+	z-index:999;
+}
+
+
+.sidebar-expand {
+	left: 0;
+}
+
+.sidebar-hidden{
+	left: -10rem;
+}
+
+.sidebar-toggle {
+	font-size: 2rem;
+	color: white;
+	border-radius: .1rem;
+	position: fixed;
+	top: 1rem;
+	left: 1rem;
+	background-color: #363636;
+	transition: .1s;
+
+}
+
+.sidebar-toggle:hover {
+	text-shadow: 0px 0px 5px white;
+}
+
+.expanded-toggle {
+	transform: rotate(180deg);
+	transition: .2s;
+}
+
+.collapsed-toggle{
+	transition: .2s;
+
+}
+
+.sidebar-notification{
+	color:#db6060;
+	position: fixed;
+	left: 3rem;
+	top: 2rem;
+	z-index: 999;
+}
+
+
+.sidebar-link-wrapper {
+	display: flex;
+	flex-direction: column;
+}
+
+.sidebar-profile-picture {
+	height: 50%;
+	width: 50%;
+	border-radius: 50%;
+	margin: 1rem auto 0 auto ;
+	border: 2px solid grey;
+	box-shadow: 0px 0px 10px white;
+}
+
+.sidebar-username {
+	color: white;
+	font-weight: 100;
+	padding: 0 0 1rem 0;
+	text-align:center;
+}
+
+.sidebar-nav-link {
+	border: none;
+	height: 2rem;
+	background-color: rgba(0,0,0,0);
+	color: white;
+	padding: 0 1rem;
+	transition: .1s;
+	border-radius: .1rem;
+	width:100%;
+
+}
+
+.sidebar-nav-link:hover {
+	background-color: lightgray;
+	color: black;
+	transition: .2s;
+	
+}
+

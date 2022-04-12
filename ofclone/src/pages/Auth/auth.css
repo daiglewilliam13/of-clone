@@ -1,0 +1,48 @@
+.auth-page{
+	background-color: #363636;
+	height: 100vh;
+}
+
+.auth-page-wrapper{
+	width: 100%;
+	overflow: hidden;
+}
+
+.auth-page-wrapper h2 {
+	text-align:center;
+	margin: 2rem auto;
+	color: white;
+	text-shadow: 1px 1px 1px black;
+}
+
+.form-toggle-button {
+	border:none;
+	background-color: #363636;
+	color: #db6060;
+	text-decoration:underline;
+	margin: 1rem 25%;
+	width: 50%;
+}
+
+.form-toggle-button:hover {
+	cursor:pointer;
+}
+
+.form{
+	width: 100%;
+}
+
+.form-title{
+	padding: 1rem 0 0 1rem;
+}
+
+.hidden {
+	display: none;
+	
+}
+
+.expanded {
+	display: initial;
+}
+
+

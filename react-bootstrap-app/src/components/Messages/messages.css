@@ -1,11 +1,28 @@
-.message-create-form {
-	margin: 3rem 0 0 0;
+.messages-wrapper {
+	display: flex;
+		width:calc(100% - 5rem);
+	height:100%;
+	margin: 3.5rem 0 0 5rem;
 }
 
-ul, li {
-	list-style: none;
+.conversations-box {
+	width: 30%;
 }
 
-.recipient {
-	display: none;
+.chatbox-top {
+	overflow-y: scroll;
+	height: 100%;
+}
+
+.chatbox {
+	width:70%;
+}
+
+@media screen and (min-width: 1355px){
+	.messages-wrapper {
+		width:calc(100% - 15rem);
+		margin: 3.5rem 0 0 15rem;
+		transition: .3s;
+	}
+	
 }

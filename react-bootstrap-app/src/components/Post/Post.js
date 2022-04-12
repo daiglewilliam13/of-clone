@@ -4,6 +4,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './Post.css';
 import {Button} from 'react-bootstrap';
 import axios from 'axios';
+import { Heart, HeartFill } from 'react-bootstrap-icons';
+import Comments from '../Comments/Comments';
 
 const tOptions = {
 	year: 'numeric',
@@ -102,10 +104,13 @@ const Posts = (props) => {
 							<img src={posts.postPicture} alt=""></img>
 						</div>
 						<div className="post-likes">
-						<p><Button onClick={handleLike} objectid={posts._id}>{posts.isLiked? 'You Like this' : 'Like This!'}</Button> Likes: {posts.likes} </p>
+						<p><Button className="like-button" onClick={handleLike} objectid={posts._id}>{posts.isLiked? <HeartFill /> : <Heart />} {posts.likes}</Button></p>
 						</div>
 						<div className="post-comments">
-						<p>Comments: {posts.comments}</p>
+						<p>{posts.comments.length} Comments</p>
+						<Comments 
+							post={{...posts}}
+							user={{...props.user}}/>
 						</div>
 					</div>
 				</div>

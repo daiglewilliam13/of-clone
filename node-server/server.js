@@ -8,6 +8,7 @@ const bcrypt = require('bcrypt');
 const User = require('./models/user');
 const Post = require('./models/post');
 const Message = require('./models/message');
+const Comment = require('./models/comment');
 const jwtSecret = 'pizza';
 const passportSecret = 'pizza';
 
@@ -73,16 +74,16 @@ app.post('/getUserInfo', (req, res) => {
 	});
 });
 
-app.post('/getUsername', (req,res)=>{
-	if(!req.body.id){
+app.post('/getUsername', (req, res) => {
+	if (!req.body.id) {
 		res.json('');
 	} else {
-	User.findById(req.body.id).exec((err, foundUser)=>{
-		if(err) console.log(err)
-		res.json(foundUser.username);
-	})
-	} 
-})
+		User.findById(req.body.id).exec((err, foundUser) => {
+			if (err) console.log(err);
+			res.json(foundUser.username);
+		});
+	}
+});
 
 app.post('/register', async (req, res) => {
 	const user = req.body;
@@ -127,6 +128,8 @@ app.post('/login', (req, res) => {
 				jwt.sign(payload, jwtSecret, { expiresIn: 86400 }, (err, token) => {
 					if (err) return res.json({ message: err });
 					return res.json({
+						id: payload.id,
+						username: payload.username,
 						message: 'Success',
 						token: 'Bearer ' + token,
 					});
@@ -219,6 +222,43 @@ app.post('/sendMessage', verifyJWT, (req, res) => {
 			);
 			res.json('success');
 		}
+	});
+});
+
+app.post('/getCommentData', verifyJWT, (req, res) =>{
+	//find parent post
+	Comment.findOne({_id:req.body}, function(err, foundComment){
+		if(err) console.log(err)
+		res.json(foundComment)
+	})
+	//send back comment data
+})
+
+app.post('/addComment', verifyJWT, async (req, res) => {
+	console.log(req.body);
+	//push comment object to db
+	const commentData = req.body;
+	const newComment = new Comment({
+		_id: new mongoose.Types.ObjectId(),
+		parent: commentData.parent,
+		author: {
+			id: commentData.author.id,  
+			username: commentData.author.username 
+			},
+		createdAt: commentData.createdAt,
+		commentText: commentData.commentText,
+		likes: commentData.likes,
+		likedBy: [commentData.likedBy],
+	});
+	console.log(newComment)
+	newComment.save();
+	//find parent post in comment data
+	Post.findByIdAndUpdate(commentData.parent, {
+		//push comment id ref to post comment array
+		$addToSet: { comments: newComment._id },
+	}).then(() => {
+		console.log('comment pushed');
+		res.json('comment added');
 	});
 });
 

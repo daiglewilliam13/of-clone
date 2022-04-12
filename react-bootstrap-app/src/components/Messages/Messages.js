@@ -1,9 +1,9 @@
-import React, { useState, useEffect} from 'react';
-import { Container } from 'react-bootstrap';
+import React, { useState, useEffect } from 'react';
 import '../Sidebar/content-wrapper.css';
 import './messages.css';
 import axios from 'axios';
 import Conversation from '../Conversation/Conversation';
+import Message from '../Message/Message';
 
 const Messages = (props) => {
 	const [hasSent, setHasSent] = useState(false);
@@ -19,14 +19,14 @@ const Messages = (props) => {
 	};
 	const triggerRefresh = () => {
 		setHasSent((hasSent) => !hasSent);
-		console.log(hasSent);
-	}
-
-
+		const messageBody = document.querySelector('.conversation-box');
+		messageBody.scrollTop = messageBody.scrollHeight;
+	};
 
 	const getConversations = () => {
 		const userId = { id: userData.id };
 		let foundConvos = [];
+		let updatedConvos = [];
 		axios
 			.post(
 				'https://wondering-shipments.run-us-west2.goorm.io/getConversations',
@@ -65,7 +65,6 @@ const Messages = (props) => {
 			)
 			.then(() => {
 				setConversations(foundConvos);
-				console.log(conversations);
 				setHasLoaded(true);
 			});
 	};
@@ -76,37 +75,38 @@ const Messages = (props) => {
 
 	return (
 		<>
-		<Container>
-			<div className="content-wrapper">
-				<div className="header-bar">
-					<h3>{props.content}</h3>
+				<div className="messages-wrapper">
+					<div className="conversations-box">
+						<div className="conversations-box-wrapper">
+							<div>
+								<p>Online Friends/conversations</p>
+							</div>
+							<Conversation />
+							<Conversation />
+							<Conversation />
+							<Conversation />
+						</div>
+					</div>
+					<div className="chatbox">
+						<div className="chatbox-wrapper">
+							<div className="chatbox-top">
+								<Message own={true} />
+								<Message />
+								<Message />
+								<Message />
+							</div>
+							<div className="chatbox-bottom">
+								<textarea
+									className="chat-message-input"
+									placeholder="...say something!"
+								></textarea>
+								<button className="message-send-button">Send</button>
+							</div>
+						</div>
+					</div>
 				</div>
-				<div>
-					<p>Conversations:</p>
-				</div>
-				<div className={`${hasLoaded ? 'expanded' : 'hidden'}`}>
-					{conversations.map((conversations, index) => (
-						<ul>
-							<li>
-								<Conversation
-									conversation={{ ...conversations }}
-									user={{ ...userData }}
-									axiosConfig={{...axiosConfig}}
-									triggerRefresh={triggerRefresh}
-									key={conversations._id}
-								/>
-						
-							</li>
-						</ul>
-					))}
-				</div>
-
-			</div>
-		</Container>
-		<p className={`${hasLoaded ? 'hidden' : 'expanded'} loading-status`}>Loading Messages....</p>
-	</>
+		</>
 	);
-	
 };
 
 export default Messages;

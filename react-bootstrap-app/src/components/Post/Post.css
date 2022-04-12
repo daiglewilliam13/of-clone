@@ -6,14 +6,18 @@ p {
 	min-height: 5rem;
 	padding: 1.5rem 0 1rem 1rem;
 	box-shadow: 0 0 10px grey;
-	width: 60%;
+	width: 80%;
 	border-radius: 2rem;
+	background-color: white;
 }
 
 .username {
 	font-size: .75rem;
 }
 
+.post-container{
+	margin: 5rem 0 0 2rem;
+}
 .post-date {
 	font-size: .75rem;
 }
@@ -48,3 +52,12 @@ p {
 	width: 70%;
 	padding: 0 0 0 1.5rem;
 }
+
+.like-button, .like-button:hover, .like-button:active, .like-button:focus {
+	background-color: #E16363;
+	border: none;
+	color: white;
+	font-size: 1.5rem;
+	border-radius: .2rem;
+}
+

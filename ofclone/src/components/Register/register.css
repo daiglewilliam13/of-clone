@@ -1,0 +1,52 @@
+.register-wrapper{
+	width: 70%;
+	margin: 1rem 15%;
+	border: 2px solid black;
+	border-radius: .5rem;
+	background-color:white;
+}
+
+.register-id-input, .register-password-input{
+	width: 80%;
+	display: block;
+	margin: 1rem auto 0 auto ;
+	background-color: white;
+	border:none;
+	border-bottom: 2px solid grey;
+	height: 2rem;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active{
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+
+.form-label {
+	font-size: .7rem;
+	margin: 0 0 0 10%;
+	text-align:left;
+}
+
+.register-submit-button {
+	background-color: #db6060;
+	border-radius: .2rem;
+	color: black;
+	width: 70%;
+	border: none;
+	margin: 1rem 15%;
+	padding: .5rem 0;
+	cursor: pointer;
+	transition: .1s;
+}
+
+.register-submit-button:hover {
+	background-color:#f29999;
+	transition:.2s;
+}
+
+.register-password-input:focus, .register-id-input:focus{
+	outline: 2px solid #db6060;
+	transition: .1s;
+}

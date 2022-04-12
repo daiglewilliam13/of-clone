@@ -1,0 +1,25 @@
+.conversation-wrapper {
+	padding: 0.5rem;
+	display: flex;
+	transition: 0.1s;
+	border-radius: 1rem;
+}
+
+.conversation-wrapper:hover {
+	background-color: #f29999;
+	cursor: pointer;
+
+	transition: 0.2s;
+}
+.conversation-img {
+	width: 3rem;
+	height: 3rem;
+	border-radius: 50%;
+	object-fit: cover;
+}
+
+.conversation-username {
+	align-self: center;
+	margin: 0 0.5rem;
+	font-weight: 500;
+}

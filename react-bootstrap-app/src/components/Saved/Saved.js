@@ -4,13 +4,13 @@ import '../Sidebar/content-wrapper.css';
 
 const Saved = (props) => {
 	return(
-		<Container>
+
 		<div className="content-wrapper">
 			<div className="header-bar">
 				<h3>{props.content}</h3>
 			</div>
 		</div>
-		</Container>
+
 	)
 }
 

@@ -1,0 +1,37 @@
+VITAL FEATURES {
+	Image Upload
+	Paywalls
+	Websockets
+	Notification Area
+	Saved/Purchased posts
+	Following, Followers, and Friends
+	Landing/Splash page
+	{accent color: #E16363}
+}
+
+QUALITY OF LIFE {
+	Messages{
+		Friend List {
+			{Left Side, Online friends first}
+			{add highlight to username when chat window is active}
+			{indicator for online status}
+		}
+		chat window {
+			{chats scroll all the way to bottom automatically}
+			{when user clicks on friend, use friendId to set currentChat and get messages}
+			{dynamically filled chat window instead of multiple windows in hiding }
+		}
+	}
+
+	Posts {
+		Comments {
+			{add like system}
+			{pre-collapsed comment section for brevity}
+			{comment button icon}
+			{format/style date}
+		}
+		{Sort by unseen first}
+		{style like button}
+	}
+	
+}

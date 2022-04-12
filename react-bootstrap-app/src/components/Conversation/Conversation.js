@@ -1,96 +1,17 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import '../Sidebar/content-wrapper.css';
 import '../Messages/messages.css';
+import '../Conversation/conversation.css';
 import axios from 'axios';
 
-
 const Conversation = (props) => {
-	const [messageDetails, setMessageDetails] = useState({});
-	const [expanded, setExpanded] = useState(false);
-	const conversation = props.conversation;
-	const toggleExpand = () => {
-		setExpanded((expanded) => !expanded);
-	};
-	const triggerRefresh = () => {
-		props.triggerRefresh();
-	}
-	
-	const recipientEl = useRef();
-	const message = useRef();
-		const handleSubmit = (e) => {
-		e.preventDefault();
-		console.log('sent');
-		const messageData = {
-			recipient: recipientEl.current.value,
-			messageTitle: messageDetails.messageTitle,
-			createdAt: Date.now(),
-			author: props.user.id,
-			messageText: messageDetails.messageText,
-		};
-		axios
-			.post(
-				'https://wondering-shipments.run-us-west2.goorm.io/sendMessage',
-				messageData,
-				props.axiosConfig
-			)
-			.then((res) => {
-				message.current.value = "";
-				triggerRefresh();
-			});
-	};
-	return  (
+	return (
 		<>
-			<div>
-				<div>
-					<hr></hr>
-					<span onClick={toggleExpand}>
-						Conversation with{' '}
-						{conversation.members[0] === props.user.username
-							? conversation.members[1]
-							: conversation.members[0]}
-					</span>
-					{props.conversation.messages.map((message, index) => (
-						<ul className={`${expanded ? 'expanded' : 'hidden'}`}>
-							<li>
-								{message.sentBy}: {message.text}
-							</li>
-						</ul>
-					))}
-					<div className={`${expanded ? 'expanded' : 'hidden'}`}>
-						Reply:
-					<div className="message-create-form">
-							<form>
-								<label className="recipient">
-									<input
-										type="text"
-										name="Send To"
-										defaultValue={`${
-											conversation.members[0] === props.user.username
-												? conversation.members[1]
-												: conversation.members[0]
-										}`}
-										ref={recipientEl}
-									/>
-								</label>
-								<label>
-									Text:
-									<textarea
-										type="text"
-										name="postText"
-										ref={message}
-										onChange={(e) =>
-											setMessageDetails({
-												...messageDetails,
-												messageText: e.target.value,
-											})
-										}
-									/>
-								</label>
-								<input type="submit" value="Submit" onClick={handleSubmit} />
-							</form>
-						</div>
-					</div>
-				</div>
+			<div className="conversation-wrapper">
+				<img 
+					className="conversation-img"
+					src="../../images/default-profile-photo.jpg"></img>
+				<span className="conversation-username">John Doe</span>
 			</div>
 		</>
 	);

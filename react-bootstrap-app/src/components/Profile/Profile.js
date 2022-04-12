@@ -5,7 +5,7 @@ import './Profile.css';
 
 const Profile = (props) => {
 	return (
-		<Container>
+
 			<div className="content-wrapper">
 				<div className="header-bar">
 					<h3>{props.content}</h3>
@@ -17,7 +17,6 @@ const Profile = (props) => {
 					<div className="token-info"></div>
 				</div>
 			</div>
-		</Container>
 	);
 };
 

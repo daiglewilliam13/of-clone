@@ -1,0 +1,21 @@
+.conversation-wrapper {
+	padding: .5rem;
+	display: flex;
+}
+
+.conversation-wrapper:hover{
+	background-color: grey;
+	cursor: pointer;
+}
+.conversation-img {
+	width: 3rem;
+	height: 3rem;
+	border-radius: 50%;
+	object-fit:cover;
+}
+
+.conversation-username {
+	align-self: center;
+	margin: 0 .5rem;
+	font-weight: 500;
+}
