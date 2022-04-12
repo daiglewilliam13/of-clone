@@ -5,9 +5,11 @@ import {handleLogin} from '../../handlers';
 
 const Login = () => {
 	const [details, setDetails] = useState({});
+	const flashMessage = JSON.parse(localStorage.getItem('flashMessage'));
 	return(
-	<div className={"login-wrapper"}>
+	<div className="login-wrapper">
 	<p className="form-title">Login to your account:</p>
+	<span className={`flash-message ${flashMessage ? 'expanded' :'hidden'}`}>{flashMessage?.message}</span>	
 	<input type="text"
 		   placeholder="username or email"
 		   className="login-id-input"

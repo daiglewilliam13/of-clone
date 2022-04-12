@@ -116,6 +116,7 @@ app.post('/login', (req, res) => {
 	User.findOne({ username: userCredentials.username }).then((dbUser) => {
 		if (!dbUser) {
 			return res.json({
+				authorized: false,
 				message: 'Invalid Username or Password',
 			});
 		}
@@ -132,6 +133,7 @@ app.post('/login', (req, res) => {
 						username: payload.username,
 						message: 'Success',
 						token: 'Bearer ' + token,
+						authorized: true
 					});
 				});
 			} else {

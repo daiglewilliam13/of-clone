@@ -68,8 +68,12 @@
 .sidebar-username {
 	color: white;
 	font-weight: 100;
-	padding: 0 0 1rem 0;
+	padding: .5rem 0 1rem 0;
 	text-align:center;
+}
+
+.sidebar-username:first-letter {
+	text-transform:capitalize;
 }
 
 .sidebar-nav-link {

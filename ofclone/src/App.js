@@ -4,29 +4,29 @@ import './fonts.css';
 import Home from './pages/Home/Home';
 import Auth from './pages/Auth/Auth';
 import Messenger from './pages/Messenger/Messenger';
-import { UserContext } from './context/UserContext';
+import PageNotFound from './components/PageNotFound/PageNotFound';
+import {UserContext} from './context/UserContext';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 
 function App() {
-	const [userData, setUserData] = useState(true);
-	const testData = useContext(UserContext); 
-	console.log(testData);
+	const userData = React.useContext(UserContext);
 	return (
 		<>
 			<Router>
 				<Switch>
 					<Route exact path="/">
-						{userData ? <Redirect to="/home" /> : <Redirect to="/auth" />}
+						{userData?.authorized ? <Redirect to="/home" /> : <Redirect to="/auth" />}
 					</Route>
 					<Route path="/home">
-						{userData ? <Home/> : <Redirect to="/"/>}
+						{userData?.authorized ? <Home/> : <Redirect to="/"/>}
 					</Route>
 					<Route path="/auth">
-						{userData ? <Redirect to="/"/> : <Auth /> }
+						{userData?.authorized ? <Redirect to="/"/> : <Auth /> }
 					</Route>
 					<Route path="/messenger">
-						{userData ? <Messenger /> : <Redirect to="/" />}
+						{userData?.authorized ? <Messenger /> : <Redirect to="/" />}
 					</Route>
+					<Route component={PageNotFound}></Route>
 				</Switch>
 			</Router>
 		</>

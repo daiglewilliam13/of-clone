@@ -7,6 +7,13 @@
 
 }
 
+.flash-message{
+	font-size:.8rem;
+	color:#db6060;
+	padding: 0 0 0 1rem;
+	text-decoration: underline;
+}
+
 .login-id-input, .login-password-input{
 	width: 80%;
 	display: block;
